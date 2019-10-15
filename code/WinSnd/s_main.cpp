@@ -5,6 +5,8 @@
 
 sndGlobals_t sndGlobal;
 
+cvar_t *s_musicVolume;
+
 /*
 =================
 S_Init
@@ -35,6 +37,9 @@ bool S_Init(void)
 	// Create the music voice
 	alGenSources(1, &sndGlobal.music_voice);
 
+	// Load the Cvars
+	s_musicVolume = Cvar_Get("s_musicVolume", "50", CVAR_ARCHIVE);
+
 	return true;
 }
 
@@ -58,7 +63,14 @@ sfx_t *S_FindName(char *name, qboolean create) {
 
 	// Load in the file from the disk.
 	void *wavFileBuffer = nullptr;
-	sprintf(sndName, "sound/%s", name);
+	if (name[0] == '*')
+	{
+		sprintf(sndName, "sound/player/%s", name + 1);
+	}
+	else
+	{
+		sprintf(sndName, "sound/%s", name);
+	}
 	int wavFileSize = FS_LoadFile(sndName, &wavFileBuffer);
 	if(wavFileBuffer == nullptr || wavFileSize <= 0) {
 		Com_Printf("S_FindName: Failed to find sfx %s\n", name);
@@ -245,5 +257,9 @@ void S_PlayMusic(int track, int looping)
 	alSourcei(sndGlobal.music_voice, AL_BUFFER, music->buffer);
 	alSourcei(sndGlobal.music_voice, AL_SOURCE_RELATIVE, AL_FALSE);
 	alSourcei(sndGlobal.music_voice, AL_LOOPING, AL_TRUE);
+
+	float volume = s_musicVolume->value / 100.0f;
+	alSourcef(sndGlobal.music_voice, AL_GAIN, volume);
+
 	alSourcePlay(sndGlobal.music_voice);
 }
