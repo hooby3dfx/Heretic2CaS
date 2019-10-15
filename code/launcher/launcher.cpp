@@ -164,7 +164,11 @@ void Sys_Init(void) {
 int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	std::string cmdline = lpCmdLine;
-	cmdline += "+set game portals +set gl_driver opengl32 +set sv_pure 0";
+	cmdline += " +set gl_driver opengl32";
+
+	if(!strstr(lpCmdLine, "+set game")) {
+		cmdline += " +set game portals";
+	}
 
 	MH_Initialize();
 
@@ -223,6 +227,16 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 		MH_CreateHook(function, GetRefAPI, (LPVOID *)&GetRefAPIEngine_t);
 		MH_EnableHook(function);
 	}
-	
+
+	// Force load the WndSnd dll so we can hook the cdaudio stuff.
+	HMODULE wndsnd_module = LoadLibrary("WinSnd.dll");
+	{
+		void *old_function;
+
+		void *function = (void *)0x10001000; // CDAudio_Play
+		void *new_function = GetProcAddress(wndsnd_module, "S_PlayMusic");
+		MH_CreateHook(function, new_function, (LPVOID *)&old_function);
+		MH_EnableHook(function);
+	}
 	return Quake2Main(hInstance, hPrevInstance, (char *)cmdline.c_str());
 }

@@ -232,7 +232,18 @@ void S_Update(vec3_t quake_origin, vec3_t forward, vec3_t right, vec3_t up)
 
 void S_PlayMusic(int track, int looping)
 {
-	//char filename[512];
-	//sprintf(filename, "music/Track%d.wav", track);
-	//soundSystem.StartLocalSound(filename, true);
+	char filename[512];
+	sprintf(filename, "music/Track%d.wav", track - 1);
+	
+	sfx_t *music = S_FindName(filename, true);
+	if (!music)
+	{
+		Com_Printf("Failed to load music %s\n", filename);
+		return;
+	}
+
+	alSourcei(sndGlobal.music_voice, AL_BUFFER, music->buffer);
+	alSourcei(sndGlobal.music_voice, AL_SOURCE_RELATIVE, AL_FALSE);
+	alSourcei(sndGlobal.music_voice, AL_LOOPING, AL_TRUE);
+	alSourcePlay(sndGlobal.music_voice);
 }
