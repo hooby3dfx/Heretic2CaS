@@ -13,6 +13,7 @@
 
 GLuint casProgram;
 GLuint casRenderTexture = 0;
+GLuint casInput = 0;
 
 void R_GetWindowDimen(int *width, int *height);
 
@@ -28,6 +29,7 @@ const char *Quake_CasShader_Vertex = {
 const char *Quake_PostCaSShader_Pixel = {
 "#version 140\n"
 "varying vec4 texcoords;\n"
+"uniform vec4 inputs;\n"
 "float Min3(float x, float y, float z)\n"
 "{\n"
 	"return min(x, min(y, z));\n"
@@ -108,7 +110,7 @@ const char *Quake_PostCaSShader_Pixel = {
 	"	clamp((b.g*wG + d.g*wG + f.g*wG + h.g*wG + e.g)*rcpWeightG, 0, 1),\n"
 	"	clamp((b.b*wB + d.b*wB + f.b*wB + h.b*wB + e.b)*rcpWeightB, 0, 1));\n"
 
-	"return vec4(outColor, 1.0);\n"
+	"return vec4(outColor * inputs.x, 1.0);\n"
 	"}\n"
 
 	"uniform sampler2D diffuseTex;"
@@ -144,8 +146,11 @@ static int MakePowerOfTwo(int num) {
 
 void Quake_DrawFullscreenPass(GLuint program, GLuint texId, int width, int height)
 {
+	float brightness = R_GetBrightness();
 
 	glUseProgram(program);
+
+	glUniform4f(casInput, brightness, 0.0, 0.0, 0.0);
 
 	//match projection to window resolution (could be in reshape callback)
 	glMatrixMode(GL_PROJECTION);
@@ -232,6 +237,7 @@ void Quake_CasInit(void) {
 	glAttachShader(casProgram, casPixelShader);
 
 	glLinkProgram(casProgram);
+	casInput = glGetUniformLocation(casProgram, "inputs");
 }
 
 //

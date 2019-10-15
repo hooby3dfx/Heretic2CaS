@@ -27,6 +27,12 @@ refexport_t(*GetRefAPIEngine_t)(refimport_t imp);
 refexport_t gl_ref;
 refimport_t gl_imp;
 
+float R_GetBrightness(void) {
+	cvar_t *r_brightness2 = gl_imp.Cvar_Get("r_brightness", "1", CVAR_ARCHIVE);
+
+	return r_brightness2->value;
+}
+
 float R_GetFOV(void) {
 	cvar_t *r_fov = gl_imp.Cvar_Get("r_fov", "100", 0);
 
