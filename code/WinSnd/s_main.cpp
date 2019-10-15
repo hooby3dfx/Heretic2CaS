@@ -162,6 +162,7 @@ void S_PlayNoPositionSound(ALuint voice, sfx_t *localSound) {
 	alSourcei(voice, AL_BUFFER, localSound->buffer);
 	alSource3i(voice, AL_AUXILIARY_SEND_FILTER, (ALint)sndGlobal.reverb_aux_slot, 0, AL_FILTER_NULL);
 	alSourcei(voice, AL_SOURCE_RELATIVE, AL_FALSE);
+	alSourcef(voice, AL_GAIN, 1);
 	alSourcePlay(voice);
 }
 
@@ -189,6 +190,15 @@ void S_StartSound(vec3_t origin, int entnum, int entchannel, sfx_t *sfx, float f
 	}
 
 	alSourcei(voice, AL_BUFFER, sfx->buffer);
+	alSourcef(voice, AL_GAIN, fvol);
+	alSourcef(voice, AL_REFERENCE_DISTANCE, attenuation);
+
+	// https://github.com/yquake2/yquake2/blob/master/src/client/sound/openal.c
+	alSourcef(voice, AL_REFERENCE_DISTANCE, SOUND_FULLVOLUME);
+	alSourcef(voice, AL_MAX_DISTANCE, 8192);
+	alSourcef(voice, AL_ROLLOFF_FACTOR, (attenuation * 0.001f) * (8192 - SOUND_FULLVOLUME) );
+	
+	alSourcef(voice, AL_ROLLOFF_FACTOR, 1.0);
 	alSourcei(voice, AL_SOURCE_RELATIVE, AL_TRUE);
 	alSource3i(voice, AL_AUXILIARY_SEND_FILTER, (ALint)sndGlobal.reverb_aux_slot, 0, AL_FILTER_NULL);
 	alSource3f(voice, AL_POSITION, -origin[1], origin[2], -origin[0]);

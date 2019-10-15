@@ -47,6 +47,8 @@ struct sndGlobals_t {
 	std::vector<sfx_t *> sfxList;
 };
 
+#define     SOUND_FULLVOLUME 1.0
+
 ALuint S_LoadReverbEffect(void);
 
 extern byte s_currentReverbAmount;
