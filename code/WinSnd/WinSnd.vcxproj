@@ -30,6 +30,7 @@
     <ClCompile Include="ALut\alutUtil.c" />
     <ClCompile Include="ALut\alutVersion.c" />
     <ClCompile Include="ALut\alutWaveform.c" />
+    <ClCompile Include="s_eax.cpp" />
     <ClCompile Include="s_main.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,8 @@ extern "C"
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alut.h>
+#include <AL/efx.h>
+#include <AL/efx-presets.h>
 
 //
 // sfx_t
@@ -37,9 +39,16 @@ struct sndGlobals_t {
 	ALuint		voices[32];
 	ALuint		music_voice;
 
+	ALuint		reverb_effect;
+	ALuint		reverb_aux_slot;
+
 	vec3_t		prev_origin;
 
 	std::vector<sfx_t *> sfxList;
 };
+
+ALuint S_LoadReverbEffect(void);
+
+extern byte s_currentReverbAmount;
 
 extern sndGlobals_t sndGlobal;

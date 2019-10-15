@@ -31,6 +31,11 @@ bool S_Init(void)
 		return false;
 	}
 
+	if (!alcIsExtensionPresent(alcGetContextsDevice(alcGetCurrentContext()), "ALC_EXT_EFX")) {
+		Com_Error(ERR_FATAL, "EFX Extension not present\n");
+		return false;
+	}
+
 	// Create the voices.
 	alGenSources(32, &sndGlobal.voices[0]);
 
@@ -39,6 +44,9 @@ bool S_Init(void)
 
 	// Load the Cvars
 	s_musicVolume = Cvar_Get("s_musicVolume", "50", CVAR_ARCHIVE);
+
+	// Load the reverb effect.
+	sndGlobal.reverb_effect = S_LoadReverbEffect();
 
 	return true;
 }
@@ -126,8 +134,6 @@ void S_EndRegistration(void)
 
 }
 
-
-
 void S_Shutdown(void)
 {
 
@@ -154,6 +160,7 @@ ALuint S_FindFreeVoice(void) {
 
 void S_PlayNoPositionSound(ALuint voice, sfx_t *localSound) {
 	alSourcei(voice, AL_BUFFER, localSound->buffer);
+	alSource3i(voice, AL_AUXILIARY_SEND_FILTER, (ALint)sndGlobal.reverb_aux_slot, 0, AL_FILTER_NULL);
 	alSourcei(voice, AL_SOURCE_RELATIVE, AL_FALSE);
 	alSourcePlay(voice);
 }
@@ -183,7 +190,7 @@ void S_StartSound(vec3_t origin, int entnum, int entchannel, sfx_t *sfx, float f
 
 	alSourcei(voice, AL_BUFFER, sfx->buffer);
 	alSourcei(voice, AL_SOURCE_RELATIVE, AL_TRUE);
-
+	alSource3i(voice, AL_AUXILIARY_SEND_FILTER, (ALint)sndGlobal.reverb_aux_slot, 0, AL_FILTER_NULL);
 	alSource3f(voice, AL_POSITION, -origin[1], origin[2], -origin[0]);
 
 	alSourcePlay(voice);
