@@ -9,10 +9,7 @@
 #include "../client/ref.h"
 
 #include "glew.h"
-
-extern void(*R_RenderFrameEngine)(void *refdef);
-void Com_Printf(char *format, ...);
-bool R_RenderCaS(void);
+#include "launcher.h"
 
 GLuint casProgram;
 GLuint casRenderTexture = 0;
@@ -238,11 +235,33 @@ void Quake_CasInit(void) {
 }
 
 //
+// R_SetFOV
+//
+void R_SetFOV(refdef_t *refdef)
+{
+	float fov = R_GetFOV();
+	int xdim, ydim;
+	R_GetWindowDimen(&xdim, &ydim);
+	
+	float x = (float)xdim / tan(fov / 360 * M_PI);
+	float y = atan2(ydim, x);
+
+	refdef->fov_y = y * 360 / M_PI;
+
+	float ratio_x = 16.0f;
+	float ratio_y = 9.0f;
+
+	y = ratio_y / tan(refdef->fov_y / 360.0f * M_PI);
+	refdef->fov_x = atan2(ratio_x, y) * 360.0f / M_PI;
+}
+
+//
 // R_RenderFrame
 //
-void __cdecl R_RenderFrame(void *refdef) {
+void __cdecl R_RenderFrame(refdef_t *refdef) {
 	static bool isVidInit = false;
 	
+	R_SetFOV(refdef);
 
 	if(!isVidInit)
 	{

@@ -40,5 +40,8 @@
     <ClInclude Include="wglew.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="launcher.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

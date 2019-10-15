@@ -8,8 +8,10 @@
 #include "../game/q_shared.h"
 #include "../client/ref.h"
 
+#include "launcher.h"
+
 extern "C" int __cdecl Quake2Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine);
-void (*Com_ColourPrintfEngine)(PalIdx_t color, char *fmt, ...);
+void(*Com_ColourPrintfEngine)(PalIdx_t color, char *fmt, ...);
 void(*Com_PrintfEngine)(char *fmt, ...);
 void(*Com_ErrorEngine)(int type, char *format, ...);
 void(*VID_CheckChangesEngine)(void);
@@ -20,10 +22,16 @@ void(*Sys_ErrorEngine)(const char *error, ...);
 void(*R_RenderFrameEngine)(void *refdef);
 refexport_t(*GetRefAPIEngine_t)(refimport_t imp);
 
-void __cdecl R_RenderFrame(void *refdef);
+
 
 refexport_t gl_ref;
 refimport_t gl_imp;
+
+float R_GetFOV(void) {
+	cvar_t *r_fov = gl_imp.Cvar_Get("r_fov", "100", 0);
+
+	return r_fov->value;
+}
 
 bool R_RenderCaS(void) {
 	cvar_t *r_cas = gl_imp.Cvar_Get("r_casSharpen", "1", 0);
