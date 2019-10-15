@@ -85,6 +85,8 @@ sfx_t *S_FindName(char *name, qboolean create) {
 		Com_Error(ERR_FATAL, "S_FindName: Failed to generate buffer data!\n");
 	}
 
+	strcpy(sfx->soundName, name);
+
 	FS_FreeFile(wavFileBuffer);
 
 	sndGlobal.sfxList.push_back(sfx);
