@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,34 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{06EF294B-B7A4-4821-AF56-8BE9E04304D8}</ProjectGuid>
+    <ProjectGuid>{CDEE41F3-79CB-4EB1-A54D-2585CEB49E7B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>launcher</RootNamespace>
+    <RootNamespace>H2Common</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -84,109 +83,114 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>H2COMMON;WIN32;_DEBUG;_WINDOWS;_USRDLL;H2COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>false</ConformanceMode>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4700</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>../game/;../qcommon/;../player/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>../../Heretic2Portals.exe</OutputFile>
-      <AdditionalDependencies>opengl32.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>H2Common.def</ModuleDefinitionFile>
+      <OutputFile>../../H2Common.dll</OutputFile>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalOptions>/force %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;H2COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>../../Heretic2Portals.exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>H2Common.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>H2COMMON;WIN32;NDEBUG;_WINDOWS;_USRDLL;H2COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>false</ConformanceMode>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>../game/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OutputFile>../../Heretic2Portals.exe</OutputFile>
-      <AdditionalDependencies>opengl32.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>H2Common.def</ModuleDefinitionFile>
+      <OutputFile>../../H2Common.dll</OutputFile>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;H2COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OutputFile>../../Heretic2Portals.exe</OutputFile>
+      <ModuleDefinitionFile>H2Common.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="glew.c" />
-    <ClCompile Include="launcher.cpp" />
-    <ClCompile Include="r_drawpost.cpp" />
-    <ClCompile Include="r_image.cpp" />
-    <ClCompile Include="r_main.cpp" />
+    <ClCompile Include="..\qcommon\ResourceManager.cpp" />
+    <ClCompile Include="DllMain.c" />
+    <ClCompile Include="H2Console.c" />
+    <ClCompile Include="H2Math.c" />
+    <ClCompile Include="H2Matrix.cpp" />
+    <ClCompile Include="H2Motion.c" />
+    <ClCompile Include="H2Palette.c" />
+    <ClCompile Include="H2Physics.c" />
+    <ClCompile Include="H2Rand.c" />
+    <ClCompile Include="H2SinglyLinkedList.c" />
+    <ClCompile Include="H2Surfaces.c" />
+    <ClCompile Include="H2Vector.c" />
+    <ClCompile Include="Math\Martix.cpp" />
+    <ClCompile Include="q_shared.c" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
+    <ClInclude Include="..\game\q_shared.h" />
+    <ClInclude Include="..\qcommon\H2Common.h" />
+    <ClInclude Include="..\qcommon\Matrix.h" />
+    <ClInclude Include="..\qcommon\q_Typedef.h" />
+    <ClInclude Include="..\qcommon\ResourceManager.h" />
+    <ClInclude Include="..\qcommon\SinglyLinkedList.h" />
+    <ClInclude Include="Math\Angles.h" />
+    <ClInclude Include="Math\Matrix.h" />
+    <ClInclude Include="Math\Vector.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\Final\H2Common.lib" />
+    <None Include="H2Common.def" />
+  </ItemGroup>
+  <ItemGroup>
     <Library Include="..\Final\quake2.lib" />
-    <Library Include="MinHook.x86.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Client Effects\Client Effects.vcxproj">
-      <Project>{394ce1d0-8593-4cc5-b859-34a3952c9fd1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\game\game.vcxproj">
-      <Project>{e37b8940-f2ae-4dbf-a5a5-b80f79358463}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\h2common\H2Common.vcxproj">
-      <Project>{cdee41f3-79cb-4eb1-a54d-2585ceb49e7b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Player\Player.vcxproj">
-      <Project>{c3b6e450-960d-4cf6-8eb2-cfe928bf0ef1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\WinSnd\WinSnd.vcxproj">
-      <Project>{e4ea461c-a9de-47fa-9ff8-2dc5ef6a8780}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="glew.h" />
-    <ClInclude Include="launcher.h" />
-    <ClInclude Include="wglew.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
