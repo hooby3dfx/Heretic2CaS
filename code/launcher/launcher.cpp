@@ -178,7 +178,7 @@ void Sys_Init(void) {
 int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	std::string cmdline = lpCmdLine;
-	cmdline += " +set gl_driver opengl32";
+	cmdline += " +set gl_driver opengl32 +set vid_ref gl ";
 
 	if(!strstr(lpCmdLine, "+set game")) {
 		cmdline += " +set game portals";
@@ -240,6 +240,12 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 		void *function = GetProcAddress(ref_gl_module, "GetRefAPI");
 		MH_CreateHook(function, GetRefAPI, (LPVOID *)&GetRefAPIEngine_t);
 		MH_EnableHook(function);
+	}
+
+	{
+		void *function2 = (LPVOID)0x109E4090;
+		MH_CreateHook(function2, &GL_FindImage, (LPVOID *)&GL_FindImageEngine);
+		MH_EnableHook(function2);
 	}
 
 	// Force load the WndSnd dll so we can hook the cdaudio stuff.

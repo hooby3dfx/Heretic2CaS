@@ -155,6 +155,7 @@
     <ClCompile Include="glew.c" />
     <ClCompile Include="launcher.cpp" />
     <ClCompile Include="r_drawpost.cpp" />
+    <ClCompile Include="r_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
