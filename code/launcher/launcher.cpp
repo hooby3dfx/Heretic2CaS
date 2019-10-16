@@ -23,7 +23,6 @@ void(*R_RenderFrameEngine)(void *refdef);
 refexport_t(*GetRefAPIEngine_t)(refimport_t imp);
 
 
-
 refexport_t gl_ref;
 refimport_t gl_imp;
 
@@ -64,20 +63,7 @@ qboolean Vid_GetModeInfo(int *width, int *height, int mode) {
 	return true;
 }
 
-//
-// GetRefAPI_t
-//
-refexport_t GetRefAPI(refimport_t imp) {
-	imp.Vid_GetModeInfo = Vid_GetModeInfo;
 
-	gl_ref = GetRefAPIEngine_t(imp);
-	gl_imp = imp;
-
-	R_RenderFrameEngine = (void(__cdecl *)(void *))gl_ref.RenderFrame;
-	gl_ref.RenderFrame = (int(__cdecl *)(refdef_t *))R_RenderFrame;
-
-	return gl_ref;
-}
 
 //
 // Com_ColourPrintf

@@ -36,3 +36,11 @@ typedef struct image_s
 
 image_t	*GL_FindImage(char *name, imagetype_t type);
 extern image_t *(*GL_FindImageEngine)(char *name, imagetype_t type);
+refexport_t GetRefAPI(refimport_t imp);
+
+extern refexport_t(*GetRefAPIEngine_t)(refimport_t imp);
+
+qboolean Vid_GetModeInfo(int *width, int *height, int mode);
+
+extern refexport_t gl_ref;
+extern refimport_t gl_imp;

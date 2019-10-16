@@ -17,7 +17,6 @@ extern "C"
 
 image_t *(*GL_FindImageEngine)(char *name, imagetype_t type) = nullptr;
 
-
 /*
 =========================================================
 

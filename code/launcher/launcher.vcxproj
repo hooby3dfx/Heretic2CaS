@@ -156,6 +156,7 @@
     <ClCompile Include="launcher.cpp" />
     <ClCompile Include="r_drawpost.cpp" />
     <ClCompile Include="r_image.cpp" />
+    <ClCompile Include="r_main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
