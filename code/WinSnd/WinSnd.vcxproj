@@ -126,6 +126,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>../../WinSnd.dll</OutputFile>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -163,6 +164,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>../../WinSnd.dll</OutputFile>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
